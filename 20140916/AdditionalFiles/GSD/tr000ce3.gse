@@ -1,0 +1,283 @@
+;============================================================
+;General station description - CDH75M PROFIsafe
+;
+;TR000CE3.GSE
+;
+;Firma TR-Electronic GmbH
+;Eglishalde 6
+;D-78647 Trossingen
+;Tel.: 07425/228-0
+;
+;12.04.2011
+;============================================================
+#Profibus_DP
+
+;**********************************************************
+;          general parameter
+;**********************************************************
+GSD_Revision                = 5
+; Device identification
+Vendor_Name                 = "TR Electronic GmbH"
+Model_Name                  = "CD-75- PB"
+Revision                    = "1.0"
+Ident_Number                = 0x0CE3
+Protocol_Ident              = 0                 ; DP protocol
+Slave_Family                = 7@TR-ELECTRONIC
+Station_Type                = 0                 ; DP Slave device
+FMS_supp                    = 0                 ; FMS not supported
+Hardware_Release            = "1.0"
+Software_Release            = "1.0.0"
+
+;Used bitmap
+Bitmap_Device               = "TR0E_BDE"        ;display bitmap 
+Bitmap_Diag                 = "TR0E_BDI"
+Bitmap_SF                   = "TR0E_BSF"
+
+; Supported baudrates
+9.6_supp                    = 1
+19.2_supp                   = 1
+93.75_supp                  = 1
+187.5_supp                  = 1
+500_supp                    = 1
+1.5M_supp                   = 1
+3M_supp                     = 1
+6M_supp                     = 1
+12M_supp                    = 1
+
+; Maximum responder time for supported baudrates
+MaxTsdr_9.6                 = 15
+MaxTsdr_19.2                = 15
+MaxTsdr_93.75               = 15
+MaxTsdr_187.5               = 15
+MaxTsdr_500                 = 15
+MaxTsdr_1.5M                = 25
+MaxTsdr_3M                  = 50
+MaxTsdr_6M                  = 100
+MaxTsdr_12M                 = 200
+Redundancy                  = 0                 ; not supported
+
+; DPV1
+DPV1_Slave                  = 1
+
+
+;**********************************************************
+;Text-definition for Failsafe User_Prm_Data
+;**********************************************************
+PrmText                     = 1
+Text(0)                     = "SIL1"
+Text(1)                     = "SIL2"
+Text(2)                     = "SIL3"
+Text(3)                     = "NoSIL"
+EndPrmText
+
+;Text-definition for F_Check_SeqNr
+PrmText                     = 2
+Text(0)                     = "NoCheck"   
+EndPrmText
+
+;Text-definition for CRC-Length
+PrmText                     = 3
+Text(0)                     = "3-Byte-CRC"   
+EndPrmText
+
+
+;Text-definition for F_Par_Version
+PrmText                     = 4
+Text(1)                     = "V2-mode"
+EndPrmText
+
+;Text-definition for Direction
+PrmText                     = 5
+Text(0)                     = "backward"
+Text(1)                     = "forward"
+EndPrmText
+
+
+;**********************************************************
+; Ext-User-Prm-Data-Def-List
+;**********************************************************
+ExtUserPrmData              = 1 "F_Check_SeqNr"
+Bit(0) 0 0-0
+Prm_Text_Ref                = 2
+EndExtUserPrmData
+
+ExtUserPrmData              = 2 "F_SIL"
+BitArea(2-3) 2 0-3
+Prm_Text_Ref                = 1
+EndExtUserPrmData
+
+ExtUserPrmData              = 3 "F_CRC_Length"
+BitArea(4-5) 0 0-0
+Prm_Text_Ref                = 3
+EndExtUserPrmData
+
+ExtUserPrmData              = 4 "F_Block_ID"
+BitArea(3-5) 1 1-1
+EndExtUserPrmData
+
+ExtUserPrmData              = 5 "F_Par_Version"
+BitArea(6-7) 1 1-1
+Prm_Text_Ref                = 4
+EndExtUserPrmData
+
+ExtUserPrmData              = 6 "F_Source_Add"
+Unsigned16 1 1-65534
+EndExtUserPrmData
+
+ExtUserPrmData              = 7 "F_Dest_Add"
+Unsigned16 503 1-65534
+EndExtUserPrmData
+
+ExtUserPrmData              = 8 "F_WD_Time"
+Unsigned16 125 125-10000
+EndExtUserPrmData
+
+ExtUserPrmData              = 9 "F_iPar_CRC"  
+Unsigned32 1132081116 0-4294967295
+EndExtUserPrmData
+
+ExtUserPrmData              = 10 "F_Par_CRC"
+Unsigned16 46906 0-65535
+EndExtUserPrmData
+
+ExtUserPrmData              = 11 "Integrationtime Safe"
+Unsigned16 2 1-10
+EndExtUserPrmData
+
+ExtUserPrmData              = 12 "Integrationtime Unsafe"
+Unsigned16 20 1-100
+EndExtUserPrmData
+
+ExtUserPrmData              = 13 "Windowincrements"
+Unsigned16 1000 50-4000
+EndExtUserPrmData
+
+ExtUserPrmData              = 14 "Idlenesstolerance Preset"
+Unsigned8 1 1-5
+EndExtUserPrmData
+
+ExtUserPrmData              = 15 "Direction"
+Bit (0) 1 0-1
+Prm_Text_Ref                = 5
+EndExtUserPrmData
+
+
+;**********************************************************
+;       Definitions of the Standard-Parameter
+;**********************************************************
+Info_Text = "TR-Electronic PROFIsafe Encoder CDH75M"
+
+; Supported hardware features
+Repeater_Ctrl_Sig           = 0                 ; not connected
+24V_Pins                    = 0                 ; not connected
+Implementation_Type         = "SPC3"
+
+; Supported DP features
+Freeze_Mode_supp            = 1                 ; supported
+Sync_Mode_supp              = 1                 ; supported
+Auto_Baud_supp              = 1                 ; supported
+Set_Slave_Add_supp          = 0                 ; not supported
+
+; Maximum polling frequency
+Min_Slave_Intervall         = 6
+Diag_Update_Delay           = 6
+
+; Maximum supported sizes
+Modular_Station             = 1                 ; modulare Station
+Max_Module                  = 2                 ; Maximum 2 moduls can be embedded
+Max_Input_Len               = 22                ; ProfiSafe(14 Byte)[Nocken+TRStatusGeschw+Multi+Single+Status+CRC] + ProfiBus (8 Byte)[Nocken+Geschw+Multi+Single]
+Max_Output_Len              = 20							; ProfiSafe (12 Byte)[TRContr1+TRContr2+PresetM+PresetS+Control+CRC] + ProfiBus (8 Byte)[Parameter1-5]
+Max_Data_Len                = 42							; Max_Input_Len + Max_Output_Len
+Fail_Safe                   = 1                 ; Data telegram without data in state CLEAR accepted
+
+
+Max_Diag_Data_Len           = 42							; Max_Data_Len
+
+Max_User_Prm_Data_Len       = 34                ;18 byte ProfiSafe + 13 byte Parameter + the following 3 bytes 
+
+;*********************************************************
+;            BG-description
+;*********************************************************
+Ext_User_Prm_Data_Const(0)  = 0x00,0x00,0x00	;According to the PROFIBUS DP-V1 slave specification       
+
+
+;---------------------------------------------------------
+
+ Module = "TR-PROFIsafe"                         0xCB, 0x8B, 0x8D, 0x06, 0x06, 0x03, 0x03, 0x6E, 0x06, 0x06, 0x03, 0x03, 0x03, 0x6E
+
+; Module_Reference:
+1
+
+F_IO_StructureDescCRC = 0x71F
+
+F_Ext_Module_Prm_Data_Len    = 18
+
+F_Ext_User_Prm_Data_Const(0) = 0x12             ;Blocklength F-Parameter
+F_Ext_User_Prm_Data_Const(1) = 0x05             ;Identification F-Parameter
+F_Ext_User_Prm_Data_Const(2) = 0x00             ;Slot of the F-Modul
+F_Ext_User_Prm_Data_Const(3) = 0x00             ;Reserved
+F_Ext_User_Prm_Data_Ref(4)   = 1                ;F-Param-Flag1 (F_Check_SeqNr) 
+F_Ext_User_Prm_Data_Ref(4)   = 2                ;F-Param-Flag1 (F_SIL)
+F_Ext_User_Prm_Data_Ref(4)   = 3                ;F-Param-Flag1 (F_CRC_Length)
+F_Ext_User_Prm_Data_Ref(5)   = 4                ;F-Param-Flag2 (F_Block_ID)
+F_Ext_User_Prm_Data_Ref(5)   = 5                ;F-Param-Flag2 (F_Par_Version)
+F_Ext_User_Prm_Data_Ref(6)   = 6                ;F-Source-Adr
+F_Ext_User_Prm_Data_Ref(8)   = 7                ;F-Dest-Adr
+F_Ext_User_Prm_Data_Ref(10)  = 8                ;F-WD-Time
+F_Ext_User_Prm_Data_Ref(12)  = 9                ;F-iPar-CRC
+F_Ext_User_Prm_Data_Ref(16)  = 10               ;F-CRC1
+
+F_ParamDescCRC = 0xBCBD                         ;CRC over the parameter-description-data
+
+EndModule
+
+;----------------------------------------------------------
+
+Module = "TR-PROFIbus"								0x44, 0x87, 0x06, 0x03, 0x03, 0x03
+2
+Ext_Module_Prm_Data_Len      = 13
+
+Ext_User_Prm_Data_Const(0)   = 0x0D            ;Blocklength Parameter
+Ext_User_Prm_Data_Const(1)   = 0x04             ;Identifier Parameter
+Ext_User_Prm_Data_Const(2)   = 0x01             ;Slot of the Modul
+Ext_User_Prm_Data_Const(3)   = 0x00             ;Reserved
+Ext_User_Prm_Data_Const(4)   = 0x03             ;ModulNr
+Ext_User_Prm_Data_Ref(5)  = 11                	;Parameter1
+Ext_User_Prm_Data_Ref(7)  = 12                	;Parameter2
+Ext_User_Prm_Data_Ref(9)  = 13                	;Parameter3
+Ext_User_Prm_Data_Ref(11)  = 14                	;Parameter4
+Ext_User_Prm_Data_Ref(12)  = 15                	;Parameter5
+
+EndModule
+;----------------------------------------------------------
+
+
+;*********************************************************
+;            Slot-Definition
+;*********************************************************
+
+SlotDefinition
+Slot(1) = "PROFIsafe"                  1      1
+Slot(2) = "PROFIbus"        	       2      2
+EndSlotDefinition
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
